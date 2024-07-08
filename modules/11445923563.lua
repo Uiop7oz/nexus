@@ -687,18 +687,19 @@ local Toggle = Tabs.Server:AddToggle("AutoRejoin", {
 })
  
 local Toggle = Tabs.Server:AddToggle("ReExecute", {
-	Title = "Auto ReExecute",
-	Default = false,
-	Callback = function(value)
-		if value then 
-			repeat task.wait()
-		local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
-		if queueteleport then
-			queueteleport('loadstring(game:HttpGet("https://raw.githubusercontent.com/s-o-a-b/nexus/main/loadstring"))()')
-		end  
-	until not Options.ReExecute.Value 
-end
-	end 
+    Title = "Auto ReExecute",
+    Default = false,
+    Callback = function(value)
+        local KeepNexus = value
+        local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+
+        Players.LocalPlayer.OnTeleport:Connect(function(State)
+            if KeepNexus and (not TeleportCheck) and queueteleport then
+                TeleportCheck = true
+                queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/s-o-a-b/nexus/main/loadstring'))()")
+            end
+        end)
+    end 
 })
 
 Tabs.Server:AddButton({
