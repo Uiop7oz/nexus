@@ -401,7 +401,6 @@ local ToggleGrabbingGun = Tabs.Main:AddToggle("GrabbingGun", {
                     task.wait()
 
                     if not (findGunDrop() and Murderer) then
-                        print("UPDATING")
                         GettingGun = false
                         continue
                     end
