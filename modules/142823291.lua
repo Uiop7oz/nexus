@@ -841,7 +841,7 @@ Tabs.Emotes:AddButton({
 
 local Toggle = Tabs.Settings:AddToggle("Settings", {
     Title = "Save Settings",
-	Default = true,
+	Default = false,
     Callback = function(value)
 		if value then 
             repeat task.wait(.1) 
@@ -860,7 +860,7 @@ Tabs.Settings:AddButton({
 
 local Toggle = Tabs.Server:AddToggle("AutoRejoin", {
 	Title = "Auto Rejoin",
-	Default = true,
+	Default = false,
 	Callback = function(value)
         if value then 
             nexus:Notify({Title = 'Auto Rejoin', Content = 'You will rejoin if you are kicked or disconnected from the game', Duration = 5 })
@@ -879,7 +879,7 @@ local Toggle = Tabs.Server:AddToggle("AutoRejoin", {
  
 local Toggle = Tabs.Server:AddToggle("ReExecute", {
     Title = "Auto ReExecute",
-    Default = true,
+    Default = false,
     Callback = function(value)
         local KeepNexus = value
         local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
