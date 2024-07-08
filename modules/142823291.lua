@@ -844,7 +844,7 @@ local Toggle = Tabs.Settings:AddToggle("Settings", {
 	Default = true,
     Callback = function(value)
 		if value then 
-            repeat task.wait(.3) 
+            repeat task.wait(.1) 
                 if _G.FB35D == true then return end SaveManager:Save(game.PlaceId) 
             until not Options.Settings.Value
 		end
