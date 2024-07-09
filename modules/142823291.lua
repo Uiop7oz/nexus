@@ -259,50 +259,41 @@ end
 local function farmCoins(title)
     local success, result = pcall(function()
         if FindMap() then
-            if Options.AutoFarm.Value and 
-                LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.Full.Visible and 
-                LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.BeachBall.Full.Visible and 
-                not TeleportingToMurderer and 
-                not GettingGun and 
-                InGame() then
+            if Options.AutoFarm.Value and LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.Full.Visible and LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.BeachBall.Full.Visible and not TeleportingToMurderer and not GettingGun and InGame() then
                 moveToPosition(Vector3.new(-108, 138, -11))
-            elseif Options.AutoFarmBeachBalls.Value and 
-                LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.BeachBall.Full.Visible and 
-                not TeleportingToMurderer and 
-                not GettingGun and 
-                InGame() then
+            elseif Options.AutoFarmBeachBalls.Value and LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.BeachBall.Full.Visible and not TeleportingToMurderer and not GettingGun and InGame() then
                 moveToPosition(Vector3.new(-108, 138, -11))
-            elseif IsAlive(LocalPlayer, roles) then
+            elseif IsAlive(LocalPlayer, roles) and not TeleportingToMurderer and not GettingGun then
                 local minimum_distance = math.huge
                 local minimum_object = nil
                 local murderer = game.Players:FindFirstChild(Murderer)
 
                 for _, v in pairs(FindMap():GetChildren()) do
-                    if Options.AutoFarm.Value and isValidPart(v:FindFirstChild("CoinVisual")) or
-                        Options.AutoFarmBeachBalls.Value and isValidPart(v:FindFirstChild("CoinVisual"), true) then
+                    if Options.AutoFarm.Value and isValidPart(v:FindFirstChild("CoinVisual")) and InGame() or
+                        Options.AutoFarmBeachBalls.Value and isValidPart(v:FindFirstChild("CoinVisual"), true) and not TeleportingToMurderer and not GettingGun then
                         local partPosition = v.CoinVisual.Position
                         local distance = (LocalPlayer.Character.HumanoidRootPart.Position - partPosition).Magnitude
 
-                        if murderer then
+                        if murderer and not TeleportingToMurderer and not GettingGun and InGame() then
                             local murdererDistance = (murderer.Character.HumanoidRootPart.Position - partPosition).Magnitude
                             if murdererDistance < 50 then
                                 continue
                             end
                         end
 
-                        if distance < minimum_distance then
+                        if distance < minimum_distance and not TeleportingToMurderer and not GettingGun and InGame() then
                             minimum_distance = distance
                             minimum_object = v
                         end
                     end
                 end
 
-                if minimum_object then
+                if minimum_object and not TeleportingToMurderer and not GettingGun and InGame() then
                     local anchorPosition = minimum_object:FindFirstChild("CoinVisual") and minimum_object.CoinVisual.Position or minimum_object.Position
                     moveToPosition(anchorPosition)
                     wait(0.1)
                     for rotation = 0, 10, 1 do
-                        if LocalPlayer.Character.Humanoid.Health > 0 then
+                        if LocalPlayer.Character.Humanoid.Health > 0 and not TeleportingToMurderer and not GettingGun and InGame() then
                             LocalPlayer.Character:SetPrimaryPartCFrame(LocalPlayer.Character.PrimaryPart.CFrame * CFrame.Angles(0, math.rad(rotation), 0))
                             wait(0.02)
                         end
