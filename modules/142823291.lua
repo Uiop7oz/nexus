@@ -623,7 +623,7 @@ local Toggle = Tabs.Murderer:AddToggle("AutoKilkl", {
                     if myKnife and myKnife:IsA("Tool") and InGame() then
                         local humanoid = LocalPlayer.Character:WaitForChild("Humanoid")
                         humanoid:EquipTool(myKnife)
-                        for _, v in ipairs(Players:GetPlayers()) do   
+                        for _, v in ipairs(Players:GetPlayers()) do task.wait()
                             local enemyRoot = v.Character:WaitForChild("HumanoidRootPart")
                             local enemyPosition = enemyRoot.Position
                             if IsAlive(v, roles) and v ~= LocalPlayer and InGame() and Device == "MOBILE" then  
