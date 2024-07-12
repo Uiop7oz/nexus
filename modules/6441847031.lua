@@ -26,7 +26,7 @@ local Options = nexus.Options
 SaveManager:SetLibrary(nexus)
 
 local Window = nexus:CreateWindow({
-    Title = "skid ", "",
+    Title = "skid", "",
     SubTitle = "",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
