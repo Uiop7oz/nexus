@@ -22,7 +22,6 @@ local LocalPlayer = Players.LocalPlayer
 local Workspace = Services.Workspace
 local UserInputService = Services.UserInputService
 local GetPlayerDataRemote = Services.ReplicatedStorage:FindFirstChild("GetPlayerData", true)
-local trapSystem = Services.ReplicatedStorage:FindFirstChild("TrapSystem")
 local TeleportingToMurderer, GettingGun = false, false
 local Murderer, Sheriff = nil, nil
 local infJumpConnection, Device = false, nil
