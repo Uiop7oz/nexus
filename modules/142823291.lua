@@ -930,40 +930,33 @@ coroutine.wrap(function()
     end
 end)()
 
-local GunHook
-GunHook = hookmetamethod(game, "__namecall", function(self, ...)
-    local method = getnamecallmethod()
-    local args = { ... }
-    if not checkcaller() then
-        if typeof(self) == "Instance" then
-            if self.Name == "RemoteFunction" and method == "InvokeServer" then
-                if Options.SilentAim.Value then 
+local success, GunHook = pcall(function()
+    return hookmetamethod(game, "__namecall", function(self, ...)
+        local method = getnamecallmethod()
+        local args = { ... }
+        
+        if not checkcaller() then
+            if typeof(self) == "Instance" and self.Name == "RemoteFunction" and method == "InvokeServer" then
+                if Options and Options.SilentAim and Options.SilentAim.Value then
                     if Murderer and Sheriff == LocalPlayer.Name then
-                        local Root = workspace[tostring(Murderer)].HumanoidRootPart;
-                        local Veloc = Root.AssemblyLinearVelocity;
-                        local Pos = Root.Position 
-                        args[2] = Pos;
-                    end;
-                else
-                    return GunHook(self, unpack(args));
-                end;
-            end;
-        end;
-    end;
-    return GunHook(self, unpack(args));
-end);
-
-local __namecall
-__namecall = hookmetamethod(game, "__namecall", function(self, ...)
-    local method = getnamecallmethod()
-    local args = { ... }
-    if not checkcaller() then
-        if tostring(method) == "InvokeServer" and tostring(self) == "GetChance" then
-            wait(13)
+                        local murdererRoot = workspace:FindFirstChild(tostring(Murderer))
+                        if murdererRoot and murdererRoot:FindFirstChild("HumanoidRootPart") then
+                            local rootPart = murdererRoot.HumanoidRootPart
+                            local pos = rootPart.Position
+                            args[2] = pos
+                        end
+                    end
+                end
+            end
         end
-    end
-    return __namecall(self, unpack(args))
+        
+        return GunHook(self, unpack(args))
+    end)
 end)
+
+if not success then
+    warn("Failed to hook __namecall metamethod: " .. tostring(GunHook))
+end
 
 -- Set libraries and folders
 SaveManager:SetLibrary(nexus)
