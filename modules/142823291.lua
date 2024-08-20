@@ -939,8 +939,11 @@ local success, err = pcall(function()
         if not checkcaller() then
             if typeof(self) == "Instance" then
                 if self.Name == "ShootGun" and method == "InvokeServer" then
+                    print("Checking Now...")
                     if Options.SilentAim.Value then 
+                        print("Silent Aim Is On")
                         if Murderer then
+                            print("Murderer exist")
                             local Root = workspace[tostring(Murderer)].HumanoidRootPart
                             local Veloc = Root.AssemblyLinearVelocity
                             local Pos = Root.Position 
