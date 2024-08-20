@@ -931,13 +931,12 @@ coroutine.wrap(function()
 end)()
 
 local GunHook
-
 local success, err = pcall(function()
     GunHook = hookmetamethod(game, "__namecall", function(self, ...)
         local method = getnamecallmethod()
         local args = { ... }
-        if not checkcaller() then
-            if typeof(self) == "Instance" then
+       -- if not checkcaller() then
+           -- if typeof(self) == "Instance" then
                 if self.Name == "ShootGun" and method == "InvokeServer" then
                     print("Checking Now...")
                     if Options.SilentAim.Value then 
@@ -952,8 +951,8 @@ local success, err = pcall(function()
                     else
                         return GunHook(self, unpack(args))
                     end
-                end
-            end
+          --      end
+          --  end
         end
         return GunHook(self, unpack(args))
     end)
@@ -962,6 +961,7 @@ end)
 if not success then
     nexus:Notify({Title = 'Notification', Content = "Silent Aim is not supported", Duration = 5})
 end
+
 
 -- Set libraries and folders
 SaveManager:SetLibrary(nexus)
