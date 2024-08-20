@@ -930,32 +930,34 @@ coroutine.wrap(function()
     end
 end)()
 
-local success, GunHook = pcall(function()
-    return hookmetamethod(game, "__namecall", function(self, ...)
+local GunHook
+
+local success, err = pcall(function()
+    GunHook = hookmetamethod(game, "__namecall", function(self, ...)
         local method = getnamecallmethod()
         local args = { ... }
-        
         if not checkcaller() then
-            if typeof(self) == "Instance" and self.Name == "RemoteFunction" and method == "InvokeServer" then
-                if Options and Options.SilentAim and Options.SilentAim.Value then
-                    if Murderer and Sheriff == LocalPlayer.Name then
-                        local murdererRoot = workspace:FindFirstChild(tostring(Murderer))
-                        if murdererRoot and murdererRoot:FindFirstChild("HumanoidRootPart") then
-                            local rootPart = murdererRoot.HumanoidRootPart
-                            local pos = rootPart.Position
-                            args[2] = pos
+            if typeof(self) == "Instance" then
+                if self.Name == "ShootGun" and method == "InvokeServer" then
+                    if Options.SilentAim.Value then 
+                        if Murderer then
+                            local Root = workspace[tostring(Murderer)].HumanoidRootPart
+                            local Veloc = Root.AssemblyLinearVelocity
+                            local Pos = Root.Position 
+                            args[2] = Pos
                         end
+                    else
+                        return GunHook(self, unpack(args))
                     end
                 end
             end
         end
-        
         return GunHook(self, unpack(args))
     end)
 end)
 
 if not success then
-    warn("Failed to hook __namecall metamethod: " .. tostring(GunHook))
+    nexus:Notify({Title = 'Notification', Content = "Silent Aim is not supported", Duration = 5})
 end
 
 -- Set libraries and folders
